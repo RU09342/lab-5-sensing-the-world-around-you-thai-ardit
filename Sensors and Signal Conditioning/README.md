@@ -20,10 +20,12 @@ The correct resistor values were used to divide the voltage, so the output would
 ![photoresistor_schem](https://user-images.githubusercontent.com/30231031/32254216-b76719dc-be75-11e7-8ed3-7f3e1b88f87c.png)
 
 ### Photoresistor Serial 
-With light on:
+With light on: <br />
 ![resistoron](https://user-images.githubusercontent.com/30231031/32411738-42b32a08-c1b9-11e7-92bb-09c31271f055.png)
-With light off:
+<br />
+With light off:<br />
 ![resistoroff](https://user-images.githubusercontent.com/30231031/32411700-8c39cd04-c1b8-11e7-8477-36ca4148185c.png)
+<br />
 As it can be seen, the voltage output from the Photoresistor circuit drops (from ED to 15) as the light is turned off. 
 This confirms with our measured values. 
 The Photoresistor gives us the best readings out of the 3 light sensors.
@@ -39,10 +41,12 @@ photodiode and how it could be used to create a sensor for the lab. The buffer h
 ![photodiode_schem](https://user-images.githubusercontent.com/30231031/32254217-b950eea8-be75-11e7-80d7-ca4648ef938c.png)
 
 ### Photodiode Serial
-With light on:
+With light on: <br />
 ![diodeon](https://user-images.githubusercontent.com/30231031/32411770-0b758bde-c1ba-11e7-8856-08e2f500ab04.png)
-With light off:
+<br />
+With light off: <br />
 ![diodeoff](https://user-images.githubusercontent.com/30231031/32411735-3b7783c4-c1b9-11e7-9004-4703c728a6a9.png)
+<br />
 It's clearly to see that the voltage rises (from CF to D3) as the light is turned off. Though it's not a big change 
 but it comfirms with our measurements in the first table.
 
@@ -56,10 +60,12 @@ so that the transistor behaved as a diode.
 ![phototransistor_schem](https://user-images.githubusercontent.com/30231031/32254218-bbadad58-be75-11e7-9eed-a369d74b8bc1.png)
 
 ### Phototransistor Serial
-With light on:
+With light on: <br />
 ![transistoron](https://user-images.githubusercontent.com/30231031/32411782-6d1f9000-c1ba-11e7-8f97-83799a8809f7.png)
-With light off:
+<br />
+With light off: <br />
 ![transistoroff](https://user-images.githubusercontent.com/30231031/32411783-6dc70ca4-c1ba-11e7-9337-fa504f26bd93.png)
+<br />
 The voltage again rises (from F9 to FE)as the light is turned off. Once again, the measured value is confirmed, though the difference is not clear. 
 
 ## How to implement the code
