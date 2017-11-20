@@ -70,3 +70,31 @@ The voltage again rises (from F9 to FE)as the light is turned off. Once again, t
 
 ## How to implement the code
 Run the code in CCS and import it into your MSP. Connect and power the sensor cicuit (the output of the circuit should go into P6.1). Open RealTerm and read the output values. 
+
+## Differences between ADC10 and AD12
+The difference relies mostly on the initialization of the ADC. The ADC12 uses ADC12MEM0 (cause it has multiple instances of MEM), while the ADC10 code uses ADC10MEM. <br />
+Code for ADC12 initilization: <br />
+```c 
+    //Initialize the control register ADC12CTL0
+    ADC12CTL0 = ADC12SHT0_4         // 64 ADC12CLK cycles in the sampling period
+            // for registers ADC12MEM0
+            +ADC12REFON         // ADC12_A reference generator on
+            +ADC12REF2_5V     // Set ADC12_A reference generator voltage to 2.5V
+            +ADC12ON;           // ADC12_A on
+
+    //Initialize the control register ADC12CTL1
+    ADC12CTL1=ADC12SHP;     // SAMPCON signal is sourced from the sampling timer.
+
+    //Set conversion memory control register
+    ADC12MCTL0 = ADC12SREF_1+ADC12INCH0;   //Select reference: VR+ = VREF+ and VR- = AVSS
+
+```
+Code for ADC10 intilization: <br />
+```c
+void ADC10Init()
+{
+      ADC10CTL1 = INCH_7 + SHS_1;             // P1.7, TA1 trigger sample start
+      ADC10AE0 = ADC10;                       // ADC10 on P1.7
+
+}
+```
