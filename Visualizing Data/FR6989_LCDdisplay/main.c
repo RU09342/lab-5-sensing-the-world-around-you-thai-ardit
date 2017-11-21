@@ -57,7 +57,7 @@
 //            |                 |
 //            |             P1.0|-->LED
 //
-//   Thai Nghiem and Ardit Pranvoku
+//   Thai Nghiem and Ardit Pranvoku (collaborate with Matthew Rodriguez)
 //   Rowan University
 //   November 2017
 //   Built with CCSv4 and IAR Embedded Workbench Version: 4.21
@@ -70,8 +70,8 @@
 #include <LCDDriver.h>
 #include <stdlib.h>
 
-void LCDInit();
-char convertToChar(int);
+void LCDInit(); // Intialize LCD function
+char intToChar(int); // Convert number to character function 
 
 int adc_int = 0; //will contain contents from ADC12MEM0
 int adcArray[3]; //will contain digits of adc_int
@@ -82,9 +82,10 @@ int main(void)
     WDTCTL = WDTPW | WDTHOLD;               // Stop WDT
 
     //initialize lcd
-    LCDInit();
-
-    showChar('0',0);
+    LCDInit();	
+	
+	//Prints out characters on the LCD of MSP430FR6989
+    showChar('0',0); 
     showChar('0',1);
     showChar('0',2);
     showChar('0',3);
@@ -146,60 +147,26 @@ void __attribute__ ((interrupt(ADC12_VECTOR))) ADC12_ISR (void)
         case ADC12IV_ADC12INIFG:  break;    // Vector 10:  ADC12BIN
         case ADC12IV_ADC12IFG0:             // Vector 12:  ADC12MEM0 Interrupt
 
-            __delay_cycles(300000);
-            adc_int = ADC12MEM0;
+            __delay_cycles(300000); 
+            adc_int = ADC12MEM0; // Get value from ADC12
             int count = 0;
                          //iterates through 3 digit adc_int and puts each digit into arrInt in reverse order
                          do{
-                              adcArray[count]=(adc_int%10);
+							 // Turning hex to decimal
+                              adcArray[count]=(adc_int%10); 
                               adc_int/=10;
                               count++;
                          }while(adc_int>0);
 
 
-                //prints out characters to lcd screen
-                showChar(convertToChar(adcArray[2]), 1);
-                showChar(convertToChar(adcArray[1]), 2);
-                showChar(convertToChar(adcArray[0]), 3);
-
-
-
+                //prints out characters to lcd
+                showChar(intToChar(adcArray[2]), 1);
+                showChar(intToChar(adcArray[1]), 2);
+                showChar(intToChar(adcArray[0]), 3);
 
                 // Exit from LPM0 and continue executing main
                 __bic_SR_register_on_exit(LPM0_bits);
             break;
-        case ADC12IV_ADC12IFG1:   break;    // Vector 14:  ADC12MEM1
-        case ADC12IV_ADC12IFG2:   break;    // Vector 16:  ADC12MEM2
-        case ADC12IV_ADC12IFG3:   break;    // Vector 18:  ADC12MEM3
-        case ADC12IV_ADC12IFG4:   break;    // Vector 20:  ADC12MEM4
-        case ADC12IV_ADC12IFG5:   break;    // Vector 22:  ADC12MEM5
-        case ADC12IV_ADC12IFG6:   break;    // Vector 24:  ADC12MEM6
-        case ADC12IV_ADC12IFG7:   break;    // Vector 26:  ADC12MEM7
-        case ADC12IV_ADC12IFG8:   break;    // Vector 28:  ADC12MEM8
-        case ADC12IV_ADC12IFG9:   break;    // Vector 30:  ADC12MEM9
-        case ADC12IV_ADC12IFG10:  break;    // Vector 32:  ADC12MEM10
-        case ADC12IV_ADC12IFG11:  break;    // Vector 34:  ADC12MEM11
-        case ADC12IV_ADC12IFG12:  break;    // Vector 36:  ADC12MEM12
-        case ADC12IV_ADC12IFG13:  break;    // Vector 38:  ADC12MEM13
-        case ADC12IV_ADC12IFG14:  break;    // Vector 40:  ADC12MEM14
-        case ADC12IV_ADC12IFG15:  break;    // Vector 42:  ADC12MEM15
-        case ADC12IV_ADC12IFG16:  break;    // Vector 44:  ADC12MEM16
-        case ADC12IV_ADC12IFG17:  break;    // Vector 46:  ADC12MEM17
-        case ADC12IV_ADC12IFG18:  break;    // Vector 48:  ADC12MEM18
-        case ADC12IV_ADC12IFG19:  break;    // Vector 50:  ADC12MEM19
-        case ADC12IV_ADC12IFG20:  break;    // Vector 52:  ADC12MEM20
-        case ADC12IV_ADC12IFG21:  break;    // Vector 54:  ADC12MEM21
-        case ADC12IV_ADC12IFG22:  break;    // Vector 56:  ADC12MEM22
-        case ADC12IV_ADC12IFG23:  break;    // Vector 58:  ADC12MEM23
-        case ADC12IV_ADC12IFG24:  break;    // Vector 60:  ADC12MEM24
-        case ADC12IV_ADC12IFG25:  break;    // Vector 62:  ADC12MEM25
-        case ADC12IV_ADC12IFG26:  break;    // Vector 64:  ADC12MEM26
-        case ADC12IV_ADC12IFG27:  break;    // Vector 66:  ADC12MEM27
-        case ADC12IV_ADC12IFG28:  break;    // Vector 68:  ADC12MEM28
-        case ADC12IV_ADC12IFG29:  break;    // Vector 70:  ADC12MEM29
-        case ADC12IV_ADC12IFG30:  break;    // Vector 72:  ADC12MEM30
-        case ADC12IV_ADC12IFG31:  break;    // Vector 74:  ADC12MEM31
-        case ADC12IV_ADC12RDYIFG: break;    // Vector 76:  ADC12RDY
         default: break;
     }
 }
@@ -245,46 +212,46 @@ void LCDInit()
     LCDCCTL0 |= LCDON;
 }
 
-
-char convertToChar(int numInput){
+// Converting an interger to a character
+char intToChar(int numInput){
     char number;
-
-                if(numInput == 0)
+				
+                if(numInput == 0) // Turn number zero to a character 
                 {    number = '0';
                 }
-                else if(numInput == 1)
+                else if(numInput == 1) // Turn number one to a character
                 {
                    number = '1';
                 }
-               else if(numInput == 2)
+               else if(numInput == 2)  // Turn number two to a character
         {
                    number = '2';
                 }
-              else if(numInput == 3)
+              else if(numInput == 3)  // Turn number three to a character
         {
                    number = '3';
                 }
-              else if(numInput == 4)
+              else if(numInput == 4)	// Turn number four to a character
         {
                    number = '4';
                 }
-             else if(numInput == 5)
+             else if(numInput == 5)		// Turn number five to a character
         {
                    number = '5';
                 }
-            else if(numInput == 6)
+            else if(numInput == 6)  // Turn number six to a character
         {
                    number = '6';
                 }
-            else if(numInput == 7)
+            else if(numInput == 7)	// Turn number seven to a character
         {
                    number = 7;
                 }
-            else if(numInput == 8)
+            else if(numInput == 8)	// Turn number eight to a character
         {
                    number = '8';
                 }
-            else if(numInput == 9)
+            else if(numInput == 9) // Turn number nine to a character
         {
                    number = '9';
                 }
